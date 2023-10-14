@@ -1,14 +1,14 @@
-version: "3.7"
-
+version: "2.1"
 services:
-
-  app_proxy:
+  sabnzbd:
+    image: ghcr.io/linuxserver/sabnzbd
+    container_name: sabnzbd
     environment:
-      # The format here is: <app-id>_<docker-service-name>_1
-      APP_HOST: sparkles-hello-world_server_1
-      APP_PORT: 3000
-    
-  server:
-    image: getumbrel/community-app-store-hello-world:latest
-    user: "1000:1000"
-    init: true
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - /home/umbrel/umbrel/app-data/sabnzbd/data/config:/config
+      - /home/umbrel/umbrel/data/storage/downloads/complete:/config/Downloads/complete
+    ports:
+      - 8080:8080
